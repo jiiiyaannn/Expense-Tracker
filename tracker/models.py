@@ -1,6 +1,6 @@
 from django.db import models
 
-class Expense(models.Model)
+class Expense(models.Model):
     CATEGORY_CHOICES = [
         ('Food','Food'),
         ('Transport', 'Transport'),
