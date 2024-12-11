@@ -6,17 +6,20 @@
     <title>Expense List</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUa1zYzR0T4dKp5XCQG1pLMEY7A6f99KULmCUz2NkzU8j+3G7lAwnQ8P5qlu" crossorigin="anonymous">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
         }
         h1 {
             color: #007bff;
+            font-size: 2.5rem;
             margin-bottom: 30px;
         }
-        .expense-table {
-            margin-top: 30px;
+        .expense-card {
+            margin-bottom: 20px;
         }
         .btn-add-expense {
             background-color: #28a745;
@@ -25,6 +28,12 @@
         }
         .btn-add-expense:hover {
             background-color: #218838;
+        }
+        .category-icon {
+            margin-right: 10px;
+        }
+        .expense-table th, .expense-table td {
+            text-align: center;
         }
     </style>
 </head>
@@ -39,29 +48,61 @@
         </div>
         
         <!-- Expense Table -->
-        <div class="table-responsive expense-table">
-            <table class="table table-striped">
-                <thead>
+        <div class="table-responsive">
+            <table class="table table-striped expense-table">
+                <thead class="thead-dark">
                     <tr>
                         <th>Date</th>
                         <th>Category</th>
                         <th>Amount</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for expense in expenses %}
                     <tr>
                         <td>{{ expense.date }}</td>
-                        <td>{{ expense.category }}</td>
+                        <td>
+                            <i class="category-icon fas fa-{{ expense.category|lower }}-circle"></i> 
+                            {{ expense.category }}
+                        </td>
                         <td>${{ expense.amount }}</td>
+                        <td>
+                            <!-- View Details Button (Modal Trigger) -->
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#expenseModal{{ forloop.counter }}">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </td>
                     </tr>
+
+                    <!-- Modal for Viewing Expense Details -->
+                    <div class="modal fade" id="expenseModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="expenseModalLabel{{ forloop.counter }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="expenseModalLabel{{ forloop.counter }}">Expense Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>Date:</strong> {{ expense.date }}</p>
+                                    <p><strong>Category:</strong> {{ expense.category }}</p>
+                                    <p><strong>Amount:</strong> ${{ expense.amount }}</p>
+                                    <p><strong>Description:</strong> {{ expense.description|default:"No description available" }}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS (for Modal functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
