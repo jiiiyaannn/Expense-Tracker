@@ -6,24 +6,59 @@
     <title>Expense List</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUa1zYzR0T4dKp5XCQG1pLMEY7A6f99KULmCUz2NkzU8j+3G7lAwnQ8P5qlu" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+        .expense-table {
+            margin-top: 30px;
+        }
+        .btn-add-expense {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+        .btn-add-expense:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Expense List</h1>
-
+    <div class="container">
+        <h1 class="text-center mt-4">Expense List</h1>
         <!-- Add Expense Button -->
-        <div class="text-center mt-4 mb-4">
-            <a href="{% url 'add_expense' %}" class="btn btn-primary">Add Expense</a>
+        <div class="text-center mb-4">
+            <a href="{% url 'add_expense' %}" class="btn btn-add-expense btn-lg">
+                <i class="fas fa-plus-circle"></i> Add Expense
+            </a>
         </div>
-
-        <!-- Expense List -->
-        <ul class="list-group">
-            {% for expense in expenses %}
-            <li class="list-group-item">
-                <strong>{{ expense.date }}</strong>: {{ expense.category }} - ${{ expense.amount }}
-            </li>
-            {% endfor %}
-        </ul>
+        
+        <!-- Expense Table -->
+        <div class="table-responsive expense-table">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.date }}</td>
+                        <td>{{ expense.category }}</td>
+                        <td>${{ expense.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Bootstrap JS -->
