@@ -1,6 +1,5 @@
-from django.urls import path
-from .views import expense_list, add_expense, update_expense, delete_expense
+from django.urls import include, path
 
 urlpatterns = [
-    path('', views.expense_list, name='expense_list'),
+    path('', include('tracker.urls')),
 ]

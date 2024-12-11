@@ -9,9 +9,9 @@ def expense_list(request):
 def add_expense(request):
     if request.method == 'POST':
         form = ExpenseForm(request.POST)
-    if form.is_valid():
-        form.save()
-        return redirect('expense_list')
+        if form.is_valid():
+            form.save()
+            return redirect('expense_list')
     else:
         form = ExpenseForm()
     return render(request, 'tracker/add_expense.html', {'form': form})
